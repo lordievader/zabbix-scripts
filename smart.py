@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import subprocess
+import re
 
 
 def smartvalues(disk):
@@ -29,7 +30,7 @@ def filter_output(attribute, output):
             break
 
     else:
-        line = ""
+        line = "0"
 
     return line
 
@@ -49,7 +50,7 @@ def main():
         attribute = sys.argv[2]
         output = filter_output(
                 attribute, smartvalues(disk))
-        value = output.split(' ')[-1]
+        value = re.split(r'\s+', output)[9]
         print(value)
 
 
