@@ -107,6 +107,9 @@ class Sensor():
 
         device = os.path.join(
             self.device, 'device')
+        if os.path.isdir(device) is False:
+            device = self.device
+
         for item in os.listdir(device):
             if '_input' in item:
                 sensor, label = self.label_sensor(item)
