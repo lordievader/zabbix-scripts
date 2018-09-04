@@ -1,10 +1,7 @@
-#!/usr/bin/python3
-import sys
+#!/usr/bin/env python3
 import os
 import json
-import subprocess
 
-COMMAND = 'udevadm info -a -p /sys/block/{0}|grep usb >/dev/null'
 devices = []
 FILTER = ['loop']
 
