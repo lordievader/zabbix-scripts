@@ -50,7 +50,12 @@ def main():
         attribute = sys.argv[2]
         output = filter_output(
                 attribute, smartvalues(disk))
-        value = re.split(r'\s+', output)[9]
+        splitted_data = re.split(r'\s+', output.lstrip())
+        if len(splitted_data) > 10:
+            value = splitted_data[9]
+
+        else:
+            value = 0
         print(value)
 
 
