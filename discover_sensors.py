@@ -31,6 +31,12 @@ class Sensor():
         elif 'pci' in self.device:
             connector = 'pci'
 
+        elif 'ATK' in self.device:
+            connector = 'acpi'
+
+        elif 'virtual' in self.device:
+            connector = 'virtual'
+
         return connector
 
     @property
@@ -51,7 +57,12 @@ class Sensor():
             number = dev_path.split('.')[1]
             number = hex(int(number)).replace('0x', '')
 
-        number = number.zfill(4)
+        if self.connector not in ['acpi', 'virtual']:
+            number = number.zfill(4)
+
+        else:
+            number = 0
+
         return number
 
     @property
