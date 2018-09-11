@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""Description: Allow Zabbix to monitor smartvalues.
+Author: Olivier van der Toorn <oliviervdtoorn@gmail.com>
+"""
 import sys
 import subprocess
 import re
@@ -49,9 +52,9 @@ def main():
         disk = sys.argv[1]
         attribute = sys.argv[2]
         output = filter_output(
-                attribute, smartvalues(disk))
+            attribute, smartvalues(disk))
         splitted_data = re.split(r'\s+', output.lstrip())
-        if len(splitted_data) > 10:
+        if len(splitted_data) >= 10:
             value = splitted_data[9]
 
         else:
