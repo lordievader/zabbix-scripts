@@ -1,13 +1,27 @@
 #!/usr/bin/env python3
+"""Description: Discovers for block devices for Zabbix.
+Author: Olivier van der Toorn.
+"""
 import os
 import json
+import sys
 
-devices = []
-FILTER = ['loop']
+
+DEVICES = []
+FILTER = ['loop', 'meta']
 
 
 class BlockDevice():
+    """Abstraction of a block device.
+    """
+
     def __init__(self, block):
+        """Init fuction of block device.
+
+        :param block: name of block
+        :type block: str
+        :return: None
+        """
         self.block = block
 
     def __str__(self):
@@ -22,7 +36,14 @@ class BlockDevice():
         return return_line
 
     def accept(self):
+        """Should this block device be discovered?
+
+        :return: boolean
+        """
         found = False
+        if self.size == 0:
+            return found
+
         for item in FILTER:
             if item in self.block:
                 found = True
@@ -32,6 +53,10 @@ class BlockDevice():
 
     @property
     def name(self):
+        """Gives the block device a name.
+
+        :return: name of block device
+        """
         if self.block.startswith('dm'):
             path = '/sys/block/{0}/dm/name'.format(self.block)
             with open(path, 'r') as name_file:
@@ -43,7 +68,24 @@ class BlockDevice():
         return name
 
     @property
+    def size(self):
+        """Returns the size of the block device.
+
+        :return: int size of disk
+        """
+        path = '/sys/block/{0}/size'.format(self.block)
+        with open(path, 'r') as size_file:
+            size = int(size_file.read().replace('/n', ''))
+
+        return size
+
+    @property
     def disk_type(self):
+        """Returns the disk type. These are in no way 'official', my definition
+        of types of block devices.
+
+        :return: str of block device
+        """
         if 'rimage' in self.name:
             disk_type = 'IMG'
 
@@ -52,6 +94,9 @@ class BlockDevice():
 
         elif 'dm' in self.block:
             disk_type = 'LVM'
+
+        elif 'md' in self.block:
+            disk_type = 'MD'
 
         else:
             path = '/sys/block/{0}/queue/rotational'.format(self.block)
@@ -75,10 +120,20 @@ class BlockDevice():
 
 
 def main():
+    """Main discovery function.
+    """
+    args = sys.argv
+    if len(args) == 1:
+        disk_type = 'ALL'
+
+    elif len(args) > 1:
+        disk_type = args[1].upper()
+
     devices = []
     for block in os.listdir('/sys/block/'):
         device = BlockDevice(block)
-        if device.accept() is True:
+        if (device.accept() is True and (
+                disk_type == 'ALL' or device.disk_type == disk_type)):
             devices.append(device.stats)
 
     data = {'data': devices}
