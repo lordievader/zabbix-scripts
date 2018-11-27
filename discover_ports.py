@@ -6,24 +6,22 @@ import json
 
 
 def main():
-    """Reads /etc/zabbix/urls.txt for URLs to monitor.
+    """Reads /etc/zabbix/ports.txt for ports to monitor.
     """
     urls = []
     try:
-        with open('/etc/zabbix/urls.txt', 'r') as url_file:
+        with open('/etc/zabbix/ports.txt', 'r') as url_file:
             lines = url_file.readlines()
 
         for line in lines:
             line = line.replace('\n', '')
             try:
-                url, port = line.split(':')
+                port = line
 
             except ValueError:
-                url = line
-                port = '443'
+                pass
 
             urls.append({
-                '{#URL}': url,
                 '{#PORT}': port
             })
 
