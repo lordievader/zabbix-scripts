@@ -6,7 +6,7 @@ import json
 
 
 def main():
-    """Reads /etc/zabbix/ports.txt for ports to monitor.
+    """Reads /etc/zabbix/urls.txt for URLs to monitor.
     """
     urls = []
     try:
@@ -16,12 +16,14 @@ def main():
         for line in lines:
             line = line.replace('\n', '')
             try:
-                port = line
+                ip_address, port = line.split(':')
 
             except ValueError:
-                pass
+                ip_address = '127.0.0.1'
+                port = line
 
             urls.append({
+                '{#IP}': ip_address,
                 '{#PORT}': port
             })
 
