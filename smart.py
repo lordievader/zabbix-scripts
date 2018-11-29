@@ -38,19 +38,16 @@ def filter_output(attribute, output):
     return line
 
 
-def main():
+def main(*args):
     """Main function calls all the other functions.
     """
-    if len(sys.argv) < 2:
-        return
+    if len(args) == 1:
+        disk = args[0]
+        return smartvalues(disk)
 
-    elif len(sys.argv) < 3:
-        disk = sys.argv[1]
-        print(smartvalues(disk))
-
-    else:
-        disk = sys.argv[1]
-        attribute = sys.argv[2]
+    elif len(args) == 2:
+        disk = args[0]
+        attribute = args[1]
         output = filter_output(
             attribute, smartvalues(disk))
         splitted_data = re.split(r'\s+', output.lstrip())
@@ -59,8 +56,11 @@ def main():
 
         else:
             value = 0
-        print(value)
+
+        return value
+
+    return 0
 
 
 if __name__ == '__main__':
-    main()
+    print(main(*sys.argv[1:]))

@@ -31,8 +31,8 @@ def main():
         pass
 
     data = {'data': urls}
-    print(json.dumps(data, sort_keys=True, indent=4))
+    return json.dumps(data, sort_keys=True, indent=4)
 
 
 if __name__ == '__main__':
-    main()
+    print(main())

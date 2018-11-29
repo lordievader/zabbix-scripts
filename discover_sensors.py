@@ -150,8 +150,8 @@ def main():
         sensors.extend(mon.sensors)
 
     data = {'data': sensors}
-    print(json.dumps(data, sort_keys=True, indent=4))
+    return json.dumps(data, sort_keys=True, indent=4)
 
 
 if __name__ == '__main__':
-    main()
+    print(main())
