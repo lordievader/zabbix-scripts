@@ -9,12 +9,16 @@ def updates():
     """Counts how many packages can be updated.
     """
     packages = 0
-    test = 'test -f $(which eix)'
-    if subprocess.check_call(test, shell=True) == 0:
+    test = 'test -f "$(which eix)"'
+    try:
+        subprocess.check_call(test, shell=True)
         command = '$(which eix) --installed --upgrade -#'
         output = subprocess.getoutput(command)
         if output:
             packages = len(output.split('\n'))
+
+    except subprocess.CalledProcessError:
+        pass
 
     return packages
 
