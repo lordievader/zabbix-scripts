@@ -9,6 +9,7 @@ import subprocess
 
 def main():
     """Main discovery function.
+    {#SERVICENAME} is a modified version to remove 'illegal' characters.
     """
     command = [
         'systemctl',

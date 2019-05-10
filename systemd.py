@@ -7,6 +7,12 @@ import argparse
 
 def check_service(service_name):
     """Checks the status of a systemd service.
+    This function can return a value between 0 and 2.
+    0: service is active
+    1: service is not active
+    2: an error in the process occured
+
+    :return: int active
     """
     command = [
         'systemctl',

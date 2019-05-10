@@ -24,3 +24,11 @@ This can then be used to fill the `ssl_valid[{#URL},{#PORT}]` parameters.
 The `ssl_valid` key returns a UNIX timestamp. When you create a calculated item
 which subtracts `system.localtime[utc]` from the `ssl_valid` time you get the
 years/months/days of validity left. On which we have triggers.
+
+## Discovery of systemd services
+`discover_systemd.py` discovers systemd services. It produces two macros
+`{#NAME}` and `{#SERVICENAME}`. The `{#NAME}` variable is as it is outputted by
+systemd. `{#SERVICENAME}` is a modified version thereof where illegal
+characters are removed. Hence in Zabbix items you want to use `{#SERVICENAME}`
+as the argument. The script `systemd.py`, which checks if a service is active,
+does the reverse operation before feeding it to `systemctl`.
