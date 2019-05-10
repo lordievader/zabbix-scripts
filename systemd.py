@@ -31,7 +31,7 @@ def check_service(service_name):
         if output == 'active':
             active = 0
 
-        elif output == 'in-active':
+        elif output == 'inactive':
             active = 1
 
         elif output == 'failed':
