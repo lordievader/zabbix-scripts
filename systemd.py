@@ -10,7 +10,9 @@ def check_service(service_name):
     This function can return a value between 0 and 2.
     0: service is active
     1: service is not active
-    2: an error in the process occured
+    2: service has failed
+    3: service in unkown state
+    255: an error in the process occured
 
     :return: int active
     """
@@ -19,7 +21,7 @@ def check_service(service_name):
         'is-active',
         service_name,
     ]
-    active = 1
+    active = 255
     try:
         process = subprocess.run(
             command,
@@ -29,8 +31,17 @@ def check_service(service_name):
         if output == 'active':
             active = 0
 
+        elif output == 'in-active':
+            active = 1
+
+        elif output == 'failed':
+            active = 2
+
+        else:
+            active = 3
+
     except subprocess.CalledProcessError:
-        active = 2
+        active = 255
 
     return active
 
