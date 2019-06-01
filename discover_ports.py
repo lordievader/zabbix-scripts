@@ -17,14 +17,21 @@ def main():
             line = line.replace('\n', '')
             try:
                 ip_address, port = line.split(':')
+                if ',' in port:
+                    port, method = port.split(',')
+
+                else:
+                    method = 'tcp'
 
             except ValueError:
                 ip_address = '127.0.0.1'
                 port = line
+                method = 'tcp'
 
             urls.append({
                 '{#IP}': ip_address,
-                '{#PORT}': port
+                '{#PORT}': port,
+                '{#METHOD}': method,
             })
 
     except (FileNotFoundError, PermissionError):
