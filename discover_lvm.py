@@ -10,7 +10,7 @@ import sys
 def physical_volumes():
     """Returns the discovered physical volumes.
     """
-    command = ['sudo', 'pvdisplay', '--noheading', '-C', '-o', 'pv_name']
+    command = ['sudo', 'pvs', '--unbuffered', '--noheading', '-o', 'pv_name']
     process = subprocess.run(
         command,
         stdout=subprocess.PIPE)
@@ -32,7 +32,7 @@ def physical_volumes():
 def volume_groups():
     """Returns the discovered volume groups.
     """
-    command = ['sudo', 'vgdisplay', '--noheading', '-C', '-o', 'vg_name']
+    command = ['sudo', 'vgs', '--unbuffered', '--noheading', '-o', 'vg_name']
     process = subprocess.run(
         command,
         stdout=subprocess.PIPE)
@@ -52,7 +52,7 @@ def volume_groups():
 def logical_volumes():
     """Returns the discovered logical volumes.
     """
-    command = ['sudo', 'lvdisplay', '--noheading', '-C', '-o', 'lv_name,lv_path']
+    command = ['sudo', 'lvs', '--unbuffered', '--noheading', '-o', 'lv_name,lv_path']
     process = subprocess.run(
         command,
         stdout=subprocess.PIPE)

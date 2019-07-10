@@ -17,7 +17,7 @@ def run_command(lvm, volume, option):
     option = sanitize(option)
     command = [
         'sudo', lvm, '--unbuffered', '--noheadings', '--nosuffix',
-        '--units', 'b', '-C', '-o', option, volume]
+        '--units', 'b', '-o', option, volume]
     process = subprocess.run(
         command,
         stdout=subprocess.PIPE)
@@ -25,13 +25,13 @@ def run_command(lvm, volume, option):
     return output
 
 def physical_volume(volume, option):
-    return run_command('pvdisplay', volume, option)
+    return run_command('pvs', volume, option)
 
 def volume_group(volume, option):
-    return run_command('vgdisplay', volume, option)
+    return run_command('vgs', volume, option)
 
 def logical_volume(volume, option):
-    return run_command('lvdisplay', volume, option)
+    return run_command('lvs', volume, option)
 
 def main(*switch):
     output = ''
