@@ -10,7 +10,17 @@ def sanitize(string):
     return re.sub(r'[^a-z0-9-_/]', '', string)
 
 def filter_digits(string):
-    return re.sub(r'[^0-9]', '', string)
+    """Grabs the digits from the input string.
+
+    :param string: input string
+    :type string: str
+    :return: digits from the input string
+    """
+    value = re.sub(r'[^0-9.]', '', string)
+    if value == '':
+        value = 0
+
+    return value
 
 def run_command(lvm, volume, option):
     volume = sanitize(volume)
