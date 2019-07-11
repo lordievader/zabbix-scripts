@@ -16,7 +16,7 @@ def filter_digits(string):
     :type string: str
     :return: digits from the input string
     """
-    value = re.sub(r'[^0-9.]', '', string)
+    value = re.sub(r'[^0-9a-z,.]', '', string)
     if value == '':
         value = 0
 
