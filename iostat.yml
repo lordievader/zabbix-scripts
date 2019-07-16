@@ -1,0 +1,4 @@
+zabbix_server: zabbix.mini.true
+interval: 10
+keys: 
+    util: -1

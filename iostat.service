@@ -1,0 +1,13 @@
+[Unit]
+Description=Pushes iostat data into Zabbix
+
+After=network-online.target
+
+[Service]
+Type=simple
+User=lordievader
+WorkingDirectory=/usr/lib/zabbix/externalscripts
+ExecStart=/usr/lib/zabbix/externalscripts/iostat.py
+
+[Install]
+WantedBy=network-online.target
