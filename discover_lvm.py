@@ -5,6 +5,7 @@ import json
 import re
 import subprocess
 import sys
+import pdb
 
 
 def check_lvm():
@@ -32,20 +33,25 @@ def physical_volumes():
     volumes = []
     if check_lvm() is True:
         command = [
-            'sudo', 'pvs', '--unbuffered', '--noheading', '-o', 'pv_name'
+            'sudo', 'pvs', '--unbuffered', '--noheading',
+            '--nosuffix', '--reportformat', 'json',
+            '-o', 'pv_name'
         ]
         process = subprocess.run(
             command,
             stdout=subprocess.PIPE)
         output = str(process.stdout, 'utf-8')
-        for volume in re.findall(r'(/dev/.*)\s$', output, re.M):
-            shortname = re.match(r'/dev/(.*)', volume).group(1)
-            volumes.append(
-                {
-                    '{#SHORTNAME}': shortname,
-                    '{#VOLUME}': volume,
-                }
-            )
+        if output:
+            parsed = json.loads(output)['report'][0]['pv']
+            for physical_volume in parsed:
+                volume = physical_volume['pv_name']
+                shortname = volume.split('/')[-1]
+                volumes.append(
+                    {
+                        '{#SHORTNAME}': shortname,
+                        '{#VOLUME}': volume,
+                    }
+                )
 
     return volumes
 
@@ -56,47 +62,51 @@ def volume_groups():
     volumes = []
     if check_lvm() is True:
         command = [
-            'sudo', 'vgs', '--unbuffered', '--noheading', '-o', 'vg_name'
+            'sudo', 'vgs', '--unbuffered', '--noheading',
+            '--nosuffix', '--reportformat', 'json',
+            '-o', 'vg_name'
         ]
         process = subprocess.run(
             command,
             stdout=subprocess.PIPE)
         output = str(process.stdout, 'utf-8')
-
-        for volume in re.findall(r'[a-z0-9-]+', output, re.M):
-            volumes.append(
-                {
-                    '{#SHORTNAME}': volume,
-                }
-            )
+        if output:
+            parsed = json.loads(output)['report'][0]['vg']
+            for volume_group in parsed:
+                volumes.append(
+                    {
+                        '{#SHORTNAME}': volume_group['vg_name']
+                    }
+                )
 
     return volumes
 
 
 def logical_volumes():
-    """Returns the discovered logical volumes.
+    """Uses `lvs` to discover the logical volumes and their paths.
     """
     volumes = []
     if check_lvm() is True:
         command = [
             'sudo', 'lvs', '--unbuffered', '--noheading',
+            '--nosuffix', '--reportformat', 'json',
             '-o', 'lv_name,lv_path'
         ]
         process = subprocess.run(
             command,
             stdout=subprocess.PIPE)
         output = str(process.stdout, 'utf-8')
-
-        for volume in re.findall(r'[a-z0-9-]+ +/dev/[a-z0-9-/]+',
-                                 output, re.M):
-            name = re.match('([a-z0-9-]+)', volume).group(1)
-            path = re.match('.*(/dev/.*)', volume).group(1)
-            volumes.append(
-                {
-                    '{#SHORTNAME}': name,
-                    '{#VOLUME}': path,
-                }
-            )
+        if output:
+            parsed = json.loads(output)['report'][0]['lv']
+            for logical_volume in parsed:
+                name = logical_volume['lv_name']
+                path = logical_volume['lv_path']
+                volumes.append(
+                    {
+                        '{#SHORTNAME}': name,
+                        '{#VOLUME}': path,
+                    }
+                )
 
     return volumes
 

@@ -4,10 +4,10 @@ Author:         Olivier van der Toorn <oliviervdtoorn@gmail.com>
 """
 import sys
 import subprocess
+import json
 import re
+import pdb
 
-def sanitize(string):
-    return re.sub(r'[^a-z0-9-_/]', '', string)
 
 def filter_digits(string):
     """Grabs the digits from the input string.
@@ -22,38 +22,87 @@ def filter_digits(string):
 
     return value
 
-def run_command(lvm, volume, option):
-    volume = sanitize(volume)
-    option = sanitize(option)
+
+def run_command(lvm, option):
+    """Runs an lvm command with the specified options.
+    """
+    option = option
     command = [
         'sudo', lvm, '--unbuffered', '--noheadings', '--nosuffix',
-        '--units', 'b', '-o', option, volume]
+        '--units', 'b', '--reportformat', 'json', '-o', option]
     process = subprocess.run(
         command,
         stdout=subprocess.PIPE)
-    output = filter_digits(str(process.stdout, 'utf-8'))
+    # output = filter_digits(str(process.stdout, 'utf-8'))
+    output = process.stdout
     return output
 
-def physical_volume(volume, option):
-    return run_command('pvs', volume, option)
 
-def volume_group(volume, option):
-    return run_command('vgs', volume, option)
+def physical_volume():
+    """Gathers the information for all physical volumes and
+    spits it out as a json. Can be used as the source for dependent
+    items.
+    """
+    options = ("pv_name,pv_free,pv_size")
+    output = run_command('pvs', options)
+    json_data = json.loads(output)
+    data = {}
+    for row in json_data['report'][0]['pv']:
+        name = row['pv_name']
+        del row['pv_name']
+        data[name] = {k: v or 0 for k, v in row.items()}
 
-def logical_volume(volume, option):
-    return run_command('lvs', volume, option)
+    return json.dumps(data, sort_keys=True, indent=4)
+
+
+def volume_group():
+    """Gathers the information for all volume groups and spits it
+    out as a json.
+    """
+    options = ("vg_name,lv_count,pv_count,vg_free,vg_size")
+    output = run_command('vgs', options)
+    json_data = json.loads(output)
+    data = {}
+    for row in json_data['report'][0]['vg']:
+        name = row['vg_name']
+        del row['vg_name']
+        data[name] = {k: v or 0 for k, v in row.items()}
+
+    return json.dumps(data, sort_keys=True, indent=4)
+
+
+def logical_volume():
+    """Gathers the information for all logical volumes and spits it out
+    as a json.
+    """
+    options = ("lv_name,cache_dirty_blocks,cache_read_hits,"
+               "cache_read_misses,cache_total_blocks,cache_write_hits,"
+               "cache_write_misses,copy_percent,"
+               "data_percent,lv_layout,lv_size")
+    output = run_command('lvs', options)
+    json_data = json.loads(output)
+    data = {}
+    for row in json_data['report'][0]['lv']:
+        name = row['lv_name']
+        del row['lv_name']
+        data[name] = {k: v or 0 for k, v in row.items()}
+
+    return json.dumps(data, sort_keys=True, indent=4)
+
 
 def main(*switch):
+    """Switches between the requested type.
+    """
     output = ''
-    if len(switch) == 3:
-        if switch[0] == 'pv':
-            output = physical_volume(switch[1], switch[2])
+    if len(switch) == 1:
+        if switch[0] == 'lv':
+            output = logical_volume()
 
         elif switch[0] == 'vg':
-            output = volume_group(switch[1], switch[2])
+            output = volume_group()
 
-        elif switch[0] == 'lv':
-            output = logical_volume(switch[1], switch[2])
+        elif switch[0] == 'pv':
+            output = physical_volume()
 
     return output
 
