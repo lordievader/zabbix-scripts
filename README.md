@@ -3,6 +3,8 @@ This is a collection of Zabbix scripts. Mostly Python scripts to do discovery.
 But at times also scripts to perform a specific monitoring task.
 I typically clone this repo into `/usr/lib/zabbix/external_scripts`.
 
+This repository part of my Zabbix collection: [zabbix][1]
+
 ## Discovery of ssl endpoints
 The `discover_ssl.py` script reads `/etc/zabbix/urls.txt` for the SSL enpoints
 (URLs and PORT) and returns this as a json which Zabbix can use.
@@ -33,3 +35,5 @@ systemd. `{#SERVICENAME}` is a modified version thereof where illegal
 characters are removed. Hence in Zabbix items you want to use `{#SERVICENAME}`
 as the argument. The script `systemd.py`, which checks if a service is active,
 does the reverse operation before feeding it to `systemctl`.
+
+[1]: https://github.com/lordievader/zabbix
