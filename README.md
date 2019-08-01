@@ -1,6 +1,7 @@
 # Collection of Zabbix scripts
 This is a collection of Zabbix scripts. Mostly Python scripts to do discovery.
 But at times also scripts to perform a specific monitoring task.
+I typically clone this repo into `/usr/lib/zabbix/external_scripts`.
 
 ## Discovery of ssl endpoints
 The `discover_ssl.py` script reads `/etc/zabbix/urls.txt` for the SSL enpoints
