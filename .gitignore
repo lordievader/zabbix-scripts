@@ -1,2 +1,3 @@
 ovirt/ca.pem
 ovirt/conf.ini
+__pycache__
