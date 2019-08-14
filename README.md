@@ -1,4 +1,5 @@
 # Collection of Zabbix scripts
+[![Build Status](https://travis-ci.org/lordievader/zabbix-scripts.svg?branch=master)](https://travis-ci.org/lordievader/zabbix-scripts)
 This is a collection of Zabbix scripts. Mostly Python scripts to do discovery.
 But at times also scripts to perform a specific monitoring task.
 I typically clone this repo into `/usr/lib/zabbix/external_scripts`.
