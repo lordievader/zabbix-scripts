@@ -15,13 +15,17 @@ def main():
     except IndexError:
         folder = '/'
 
-    files = [
-        {
-            '{#NAME}': _file,
-            '{#PATH}': os.path.join(folder, _file)
-        } for _file in os.listdir(folder)
-        if os.path.isfile(
-            os.path.join(folder, _file))]
+    try:
+        files = [
+            {
+                '{#NAME}': _file,
+                '{#PATH}': os.path.join(folder, _file)
+            } for _file in os.listdir(folder)
+            if os.path.isfile(
+                os.path.join(folder, _file))]
+    except (NotADirectoryError, FileNotFoundError):
+        files = []
+
     data = {'data': files}
     return json.dumps(data, sort_keys=True, indent=4)
 
