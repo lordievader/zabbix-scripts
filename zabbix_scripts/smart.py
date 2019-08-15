@@ -52,7 +52,7 @@ def main(*args):
             attribute, smartvalues(disk))
         splitted_data = re.split(r'\s+', output.lstrip())
         if len(splitted_data) >= 10:
-            value = splitted_data[9]
+            value = int(splitted_data[9])
 
         else:
             value = 0
@@ -62,5 +62,13 @@ def main(*args):
     return 0
 
 
-if __name__ == '__main__':
-    print(main(*sys.argv[1:]))
+def init():
+    """Ensures 100% code coverage.
+    """
+    if __name__ == '__main__':
+        value = main(*sys.argv[1:])
+        print(value)
+        return value
+
+
+init()

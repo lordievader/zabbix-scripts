@@ -31,6 +31,14 @@ ID# ATTRIBUTE_NAME          FLAG     VALUE WORST THRESH TYPE      UPDATED  WHEN_
 200 Multi_Zone_Error_Rate   0x0008   200   200   000    Old_age   Offline      -       0"""  # noqa: E501
 
 
+def test_smartvalues(mocker):  # noqa: F811
+    """Tests smart.smartvalues.
+    """
+    mocker.patch.object(smart.subprocess, 'getoutput')
+    smart.subprocess.getoutput.return_value = MOCK_OUTPUT
+    assert smart.smartvalues('/dev/sda') == MOCK_OUTPUT
+
+
 def test_smart_no_arguments():
     """Tests if no arguments gives a zero.
     """
@@ -52,4 +60,13 @@ def test_smart_two_arguments(mocker):  # noqa: F811
     """
     mocker.patch.object(smart, 'smartvalues')
     smart.smartvalues.return_value = MOCK_OUTPUT
-    assert smart.main('/dev/sda', 'Power_On_Hours') != 0
+    assert smart.main('/dev/sda', 'Power_On_Hours') == 9661
+    assert smart.main('/dev/sda', 'IDONOTEXIST') == 0
+
+
+def test_init(mocker):  # noqa; F811
+    """Tests if the script runs as intended.
+    """
+    mocker.patch.object(smart, 'main', return_value=0)
+    mocker.patch.object(smart, '__name__', '__main__')
+    assert smart.init() == 0
