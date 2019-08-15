@@ -2,7 +2,6 @@
 """Author:      Olivier van der Toorn <olivier@snt.utwente.nl>
 Description:    Zabbix discovery script for finding systemd services.
 """
-import pdb
 import json
 import subprocess
 
