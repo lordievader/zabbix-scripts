@@ -100,7 +100,12 @@ def logical_volumes():
             parsed = json.loads(output)['report'][0]['lv']
             for logical_volume in parsed:
                 name = logical_volume['lv_name']
-                path = logical_volume['lv_path']
+                if logical_volume['lv_path'] is '':
+                    path = name
+
+                else:
+                    path = logical_volume['lv_path']
+
                 volumes.append(
                     {
                         '{#SHORTNAME}': name,
