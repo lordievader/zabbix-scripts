@@ -1,0 +1,9 @@
+  {
+      "report": [
+          {
+              "pv": [
+                  {"pv_name":"/dev/mapper/ssd"}
+              ]
+          }
+      ]
+  }

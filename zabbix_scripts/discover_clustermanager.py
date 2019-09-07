@@ -16,14 +16,9 @@ def main():
 
         for line in lines:
             line = line.replace('\n', '')
-            try:
-                match = re.match(r'([a-zA-Z0-9 ]+?) +([0-9]+)$', line)
-                name = match.group(1)
-                index = match.group(2)
-
-            except ValueError:
-                pass
-
+            match = re.match(r'([a-zA-Z0-9 ]+?) +([0-9]+)$', line)
+            name = match.group(1)
+            index = match.group(2)
             clustermanagers.append({
                 '{#CMNAME}': name,
                 '{#CMINDEX}': index
@@ -37,4 +32,4 @@ def main():
 
 
 if __name__ == '__main__':
-    print(main())
+    print(main())  # pragma: no cover

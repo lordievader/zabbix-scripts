@@ -24,33 +24,6 @@ class BlockDevice():
         """
         self.block = block
 
-    def __str__(self):
-        return_line = ""
-        if self.accept():
-            return_line = (
-                "{name}\n"
-                "\t{disk_type}\n").format(
-                    name=self.name,
-                    disk_type=self.disk_type)
-
-        return return_line
-
-    def accept(self):
-        """Should this block device be discovered?
-
-        :return: boolean
-        """
-        found = False
-        if self.size == 0:
-            return found
-
-        for item in FILTER:
-            if item in self.block:
-                found = True
-                break
-
-        return not found
-
     @property
     def name(self):
         """Gives the block device a name.
@@ -118,6 +91,22 @@ class BlockDevice():
         }
         return stats
 
+    def accept(self):
+        """Should this block device be discovered?
+
+        :return: boolean
+        """
+        found = False
+        if self.size == 0:
+            return found
+
+        for item in FILTER:
+            if item in self.block:
+                found = True
+                break
+
+        return not found
+
 
 def main():
     """Main discovery function.
@@ -141,4 +130,4 @@ def main():
 
 
 if __name__ == '__main__':
-    print(main())
+    print(main())  # pragma: no cover

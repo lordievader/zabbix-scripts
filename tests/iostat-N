@@ -1,0 +1,8 @@
+Linux 5.2.11-gentoo (scimitar) 	09/08/2019 	_x86_64_	(4 CPU)
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           1.69    0.40    1.04    0.09    0.00   96.79
+
+Device             tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              57.55       964.50        93.92    1697730     165321
+ssd              58.66       949.52        93.92    1671365     165320

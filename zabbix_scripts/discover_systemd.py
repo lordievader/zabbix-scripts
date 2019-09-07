@@ -37,14 +37,10 @@ def main():
                 '{#NAME}': line[0],
                 '{#SERVICENAME}': name,
             })
-            # load = line[1]
-            # active = line[2]
-            # sub = line[3]
-            # description = " ".join(line[4:])
 
     data = {'data': services}
     return json.dumps(data, sort_keys=True, indent=4)
 
 
 if __name__ == '__main__':
-    print(main())
+    print(main())  # pragma: no cover

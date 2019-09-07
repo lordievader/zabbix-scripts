@@ -1,0 +1,10 @@
+  {
+      "report": [
+          {
+              "lv": [
+                  {"lv_name":"home-lv", "lv_path":"/dev/scimitar-vg/home-lv"},
+                  {"lv_name":"thinpool-lv", "lv_path":""}
+              ]
+          }
+      ]
+  }

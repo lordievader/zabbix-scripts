@@ -130,9 +130,10 @@ def main(switch=None):
 
     else:
         volumes = []
+
     data = {'data': volumes}
     return json.dumps(data, sort_keys=True, indent=4)
 
 
 if __name__ == '__main__':
-    print(main(*sys.argv[1:]))
+    print(main(*sys.argv[1:]))  # pragma: no cover
