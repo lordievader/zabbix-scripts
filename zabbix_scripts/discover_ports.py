@@ -15,17 +15,17 @@ def main():
 
         for line in lines:
             line = line.replace('\n', '')
-            try:
+            if ':' in line:
                 ip_address, port = line.split(':')
-                if ',' in port:
-                    port, method = port.split(',')
 
-                else:
-                    method = 'tcp'
-
-            except ValueError:
+            else:
                 ip_address = '127.0.0.1'
                 port = line
+
+            if ',' in port:
+                port, method = port.split(',')
+
+            else:
                 method = 'tcp'
 
             urls.append({
@@ -42,4 +42,4 @@ def main():
 
 
 if __name__ == '__main__':
-    print(main())
+    print(main())  # pragma: no cover
