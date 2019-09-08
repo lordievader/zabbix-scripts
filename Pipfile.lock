@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "cc52fca46a21724afffea8dc86704810f9b658f1f6749a0e2f0d003a4241d73f"
+            "sha256": "45c927dbe00b7bcc5b3d8187462346f54a746c7e7713295955de1953ba1e4989"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -126,7 +126,6 @@
                 "sha256:9ff1b1c5a354142de080b8a4e9803e5d0d59283c93aed808617c787d16768375",
                 "sha256:b7143592e374e50584564794fcb8aaf00a23025f9db866627f89a21491847a8d"
             ],
-            "markers": "python_version < '3.8'",
             "version": "==0.20"
         },
         "isort": {
@@ -200,6 +199,13 @@
                 "sha256:723e3db49555abaf9bf79dc474c6b9e2935ad82230b10c1138a71ea41ac0fff1"
             ],
             "version": "==2.3.1"
+        },
+        "pylint-fail-under": {
+            "hashes": [
+                "sha256:95563473451c45a7b1b16fac4b718ffffd2496309b56cd34d0667a02f2338b68",
+                "sha256:c24cd34ce376c8e8ba3e157a3a4b38b2147b847f8d8e0642e8d698a2576e11b7"
+            ],
+            "version": "==0.2.0"
         },
         "pyparsing": {
             "hashes": [
