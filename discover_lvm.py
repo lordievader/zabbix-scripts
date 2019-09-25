@@ -1,0 +1,1 @@
+zabbix_scripts/discover_lvm.py
