@@ -96,7 +96,6 @@ def parse(nfsd):
             parsed['Proc4ops'] = dict(zip(
                 NFS4_KEYS, list(values)[0:len(NFS4_KEYS)]))
 
-    pprint.pprint(parsed)
     return parsed
 
 
