@@ -34,7 +34,7 @@ def run_command(lvm, option):
         command,
         stdout=subprocess.PIPE)
     # output = filter_digits(str(process.stdout, 'utf-8'))
-    output = process.stdout
+    output = str(process.stdout, 'utf-8')
     return output
 
 
