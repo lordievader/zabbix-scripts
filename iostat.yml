@@ -2,3 +2,6 @@ zabbix_server: zabbix.mini.true
 interval: 10
 keys: 
     util: -1
+    aqu-sz: -2
+    dareq-sz: -3
+    d_await: -4

@@ -8,6 +8,8 @@ Type=simple
 User=lordievader
 WorkingDirectory=/usr/lib/zabbix/externalscripts
 ExecStart=/usr/lib/zabbix/externalscripts/iostat.py
+Restart=on-failure
+RestartSec=5s
 
 [Install]
 WantedBy=network-online.target
