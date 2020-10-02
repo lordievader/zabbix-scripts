@@ -100,7 +100,7 @@ def logical_volumes():
             parsed = json.loads(output)['report'][0]['lv']
             for logical_volume in parsed:
                 name = logical_volume['lv_name']
-                if logical_volume['lv_path'] is '':
+                if logical_volume['lv_path'] == '':
                     path = name
 
                 else:
