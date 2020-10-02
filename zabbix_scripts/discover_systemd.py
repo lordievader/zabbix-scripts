@@ -29,7 +29,7 @@ def main():
     services = []
     for line in output.split('\n'):
         if line:
-            match = re.match(r'.*?([A-Za-z0-9]+[.]service).*', line)
+            match = re.match(r'.*?([A-Za-z0-9-]+[.]service).*', line)
             if match:
                 name = match.group(1)
                 name = name.replace('@', '--at--')
