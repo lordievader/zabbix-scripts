@@ -4,6 +4,7 @@ Description:    Zabbix discovery script for finding systemd services.
 """
 import json
 import subprocess
+import re
 
 
 def main():
@@ -28,15 +29,15 @@ def main():
     services = []
     for line in output.split('\n'):
         if line:
-            line = line.split(' ')
-            line = list(filter(None, line))
-            name = line[0]
-            name = name.replace('@', '--at--')
-            name = name.replace('\\', '--backslash--')
-            services.append({
-                '{#NAME}': line[0],
-                '{#SERVICENAME}': name,
-            })
+            match = re.match(r'.*?([A-Za-z0-9]+[.]service).*', line)
+            if match:
+                name = match.group(1)
+                name = name.replace('@', '--at--')
+                name = name.replace('\\', '--backslash--')
+                services.append({
+                    '{#NAME}': name,
+                    '{#SERVICENAME}': name,
+                })
 
     data = {'data': services}
     return json.dumps(data, sort_keys=True, indent=4)
