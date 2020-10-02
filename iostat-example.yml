@@ -1,4 +1,4 @@
-zabbix_server: zabbix.mini.true
+zabbix_server: zabbix.example.com
 interval: 10
 keys: 
     util: -1
