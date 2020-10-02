@@ -36,18 +36,19 @@ def producer():
                 break
 
         if len(select.select([process.stdout], [], [], 0)[0]) > 0:
-            line = str(process.stdout.readline(), 'utf-8').replace('\n', '')
-            if line.count('Device') > 0:
-                continue
+            lines = str(process.stdout.readline(), 'utf-8').split('\n')
+            for line in lines:
+                if line.count('Device') > 0:
+                    continue
 
-            parts = whitespace.split(line)
-            if len(parts) == 16:
-                disk = parts[0]
-                data = {}
-                for key, value in config['keys'].items():
-                    data[key] = parts[value]
+                parts = whitespace.split(line)
+                if len(parts) == 23:
+                    disk = parts[0]
+                    data = {}
+                    for key, value in config['keys'].items():
+                        data[key] = parts[value]
 
-                stats_queue.put((disk, data))
+                    stats_queue.put((disk, data))
 
         else:
             time.sleep(1)
