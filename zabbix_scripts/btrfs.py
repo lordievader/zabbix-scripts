@@ -4,9 +4,14 @@ Author:             Olivier van der Toorn <oliviervdtoorn@gmail.com>
 """
 import os
 import sys
-import pdb
 
 SYSFS = '/sys/fs/btrfs'
+
+
+def check():
+    """Checks if the SYSFS folder exists.
+    """
+    return os.path.isdir(SYSFS)
 
 
 def get_value(uuid, item):
@@ -20,20 +25,32 @@ def get_value(uuid, item):
     path = os.path.join(
         SYSFS,
         uuid,
-        'allocation/data',
+        'allocation',
         item)
-    with open(path, 'r') as fd:
-        data = fd.read()
+    with open(path, 'r') as file_descriptor:
+        data = file_descriptor.read()
 
-    print(data)
+    return data.replace('\n', '')
+
 
 def main():
-    """Main function.
+    """Main function. The function/script uses
+    sysv arguments to find the BTRFS filesystem
+    and what data is requested.
+
+    argv0: uuid of the btrfs (as in /sys/fs/btrfs)
+    argv1: data requests, can be anything from
+    /sys/fs/btrfs/<uuid>/allocation
+
+    For example argv1 can be 'data/bytes_used'.
     """
-    uuid = sys.argv[1]
-    item = sys.argv[2]
-    get_value(uuid, item)
-    pdb.set_trace()
+    output = 0
+    if check():
+        uuid = sys.argv[1]
+        item = sys.argv[2]
+        output = get_value(uuid, item)
+
+    return output
 
 
 if __name__ == '__main__':
